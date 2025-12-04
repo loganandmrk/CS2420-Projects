@@ -136,7 +136,16 @@ class SList:
 
     '''Convert the list to a string and return it'''
     def __str__(self):
-        return "[" + ", ".join(str(item) for item in self) + "]"
+        if self._head is not None:
+            result = "["
+            curr_node = self._head
+            while curr_node is not None:
+                result += str(curr_node.value)
+                curr_node = curr_node.next
+                if curr_node is not None:
+                    result += ", "
+            result += "]"
+            return result
 
     '''Return an iterator for the list'''
     def __iter__(self):

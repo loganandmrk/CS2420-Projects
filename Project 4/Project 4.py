@@ -33,6 +33,7 @@ def main():
     print(course_list)
     print(calculate_gpa(course_list))
     print(is_sorted(course_list))
+    print(course_list.size())
   
 if __name__ == "__main__":
     main()

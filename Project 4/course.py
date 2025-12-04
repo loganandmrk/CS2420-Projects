@@ -9,10 +9,7 @@ class Course:
         else:
             self._course_num = course_num
         
-        if not isinstance(course_name, str):
-            raise TypeError("Course name must be a string")
-        else:
-            self._course_name = course_name
+        self._course_name = str(course_name)
         
         if not isinstance(credit_hours, (int, float)):
             raise TypeError("Credit hours must be a number")

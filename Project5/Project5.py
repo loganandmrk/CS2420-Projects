@@ -11,13 +11,34 @@ def precedence(op):
         return -1
 
 def eval_postfix(expr):
-    pass
+    #evalute a postfix expression
+    stack = Stack()
+    for char in expr.split():
+        if char.isdigit():
+            stack.push(int(char))
+        else:
+            right = stack.pop()
+            left = stack.pop()
+            if char == '+':
+                stack.push(left + right)
+            elif char == '-':
+                stack.push(left - right)
+            elif char == '*':
+                stack.push(left * right)
+            elif char == '/':
+                stack.push(left / right)
+            elif char == '^':
+                stack.push(left ** right)
+    return float(stack.top())
 
 def in2post(expr):
     #check if expr is a string and valid
+    if not isinstance (expr, str):
+        raise ValueError ("Input expression must be a string.")
     #Create an empty stack
     stack = Stack()
     expr_postfix = ""
+    expr = expr.replace(" ", "")
     #loop through each character in the infix expression
     for char in expr:
         if char == '(':
@@ -42,8 +63,10 @@ def in2post(expr):
         expr_postfix += stack.pop()
     stack.clear()
 
+    return " ".join(expr_postfix)
+
 def main():
-    with open ("data.txt", "r") as infile:
+    with open ("C:/Users/ljchr/CS2420-Projects/Project5/data.txt", "r") as infile:
         for line in infile:
             line = line.strip()
             if line:
@@ -52,7 +75,7 @@ def main():
     
                 print(f"infix: {line}")
                 print(f"postfix: {postfix_expr}")
-                print(f"answer: {result}")
+                print(f"answer: {result}\n")
     
 if __name__=="__main__":
     main()

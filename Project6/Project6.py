@@ -47,44 +47,26 @@ def make_tree():
     :param: None
     :returns: A binary search tree
     '''
-    pass
+    tree = BST()
+    with open("C:/Users/ljchr/CS2420-Projects/Project6/around-the-world-in-80-days-3.txt",'r', encoding='utf-8') as file:
+        text = file.read()
+        for char in text:
+            if char not in whitespace and char not in punctuation:
+                pair = Pair(char.upper())
+                try:
+                    if tree.find(pair) is not None:
+                        curr_pair = tree.find(pair)
+                        curr_pair.count += 1
+                except ValueError:
+                    tree.add(pair)
+    return tree
 
 def main():
     ''' Program kicks off here.
 
     '''
-    tree = BST()
-    tree.add(3)
-    tree.add(2)
-    tree.add(5)
-    tree.add(4)
-    tree.add(6)
-    print(tree.inorder())
-    print(tree.preorder())
-    print(tree.postorder())
-    tree.print_tree()
-    tree.remove(5)
-    tree.print_tree()
-    tree.add(7)
-    tree.add(1)
-    tree.print_tree()
-    tree.remove(2)
-    tree.print_tree()
-    tree.remove(3)
-    tree.print_tree()
-    print(tree.height())
-    print(tree.find(4))
-    print(tree.size())
-    tree.remove(4)
-    tree.remove(6)
-    tree.remove(1)
-    print(tree.is_empty())
-    tree.remove(7)
-    print(tree.is_empty())
-    print(tree.size())
-    print(tree.height())
-    tree.remove(34)
-    print(tree.add(10))
+    tree = make_tree()
+    tree.remove(Pair(''))
     print(tree.inorder())
 
     

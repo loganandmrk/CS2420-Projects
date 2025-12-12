@@ -32,7 +32,9 @@ class BST:
         else:
             current_node = self.root
             while current_node is not None:
-                if item < current_node.data:
+                if current_node.data == item:
+                    current_node = None
+                elif item < current_node.data:
                     if current_node.left is None:
                         current_node.left = self.Node(item)
                         self._size += 1
@@ -64,7 +66,7 @@ class BST:
                     else:
                         parent.right = None
                     self._size -= 1
-                    return True
+                    return self.root
                 elif current_node.right is None:
                     if parent is None:
                         self.root = current_node.left
@@ -73,7 +75,7 @@ class BST:
                     else:
                         parent.right = current_node.left
                     self._size -= 1  
-                    return True
+                    return self.root
                 elif current_node.left is None:
                     if parent is None:
                         self.root = current_node.right
@@ -82,18 +84,28 @@ class BST:
                     else:
                         parent.right = current_node.right
                     self._size -= 1
-                    return True
+                    return self.root
                 else:
-                    # Node with two children: Get the inorder successor
+                    # Node with two children: Get the inorder successor (leftmost in right subtree)
+                    successor_parent = current_node
                     successor = current_node.right
                     while successor.left is not None:
+                        successor_parent = successor
                         successor = successor.left
                     
+                    # Replace current node's data with successor's data
                     current_node.data = successor.data
-                    parent = current_node
-
-                    current_node = current_node.right
-                    item = successor.data
+                    
+                    # Remove the successor node (which has at most one right child)
+                    if successor_parent == current_node:
+                        # successor is the right child of current_node
+                        current_node.right = successor.right
+                    else:
+                        # successor is in the left subtree of current_node's right child
+                        successor_parent.left = successor.right
+                
+                    self._size -= 1
+                    return self.root
             elif current_node.data < item:
                 parent = current_node
                 current_node = current_node.right
@@ -107,7 +119,7 @@ class BST:
         current_node = self.root
         while current_node is not None:
             if current_node.data == item:
-                return current_node
+                return current_node.data
             elif item < current_node.data:
                 current_node = current_node.left
             else:
